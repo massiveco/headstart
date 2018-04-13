@@ -1,0 +1,25 @@
+#!headstart
+
+users:
+  user1:
+    name: Bob Loblaw
+    authorized_keys:
+      - key1
+      - key2
+
+disks:
+  /dev/xda1:
+    fs: ext4
+    options: noatime
+    mount: /var/lib/docker
+
+files:
+  /var/lib/kubelet/kubeconfig:
+    source: s3://
+    hash: 123asd123
+    mode: 0600
+    owner: root
+    group: root
+
+scripts:
+  - slack --channel=ops ${HOSTNAME} has arrived!
