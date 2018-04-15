@@ -2,6 +2,7 @@ package config
 
 import (
 	"log"
+	"os"
 
 	"github.com/massiveco/headstart/aws"
 	"gopkg.in/yaml.v2"
@@ -22,11 +23,12 @@ type DiskOptions struct {
 
 // FileOptions for creating files on the host
 type FileOptions struct {
-	Source string `yaml:"source"`
-	Hash   string `yaml:"hash"`
-	Mode   string `yaml:"mode"`
-	Owner  string `yaml:"owner,omitempty"`
-	Group  string `yaml:"group,omitempty"`
+	Source   string      `yaml:"source,omitempty"`
+	Contents string      `yaml:"contents,omitempty"`
+	Hash     string      `yaml:"hash,omitempty"`
+	Mode     os.FileMode `yaml:"mode,omitempty"`
+	Owner    string      `yaml:"owner,omitempty"`
+	Group    string      `yaml:"group,omitempty"`
 }
 
 //Config Headstart config

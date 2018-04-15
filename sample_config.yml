@@ -19,7 +19,9 @@ files:
     hash: 123asd123
     mode: 0600
     owner: root
-    group: root
-
+    group: wheel
+  /Users/deedubs/go/src/github.com/massiveco/headstart/file:
+    contents: Hello World!!
+    mode: 0600
 scripts:
   - slack --channel=ops ${HOSTNAME} has arrived!

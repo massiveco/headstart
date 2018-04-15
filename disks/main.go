@@ -2,14 +2,17 @@ package disks
 
 import (
 	"github.com/massiveco/headstart/config"
-	"github.com/massiveco/headstart/linux"
 )
 
-//Create files on the host system
+//Mount disks on the host system
 func Mount(config config.Config) {
 
 	for k, v := range config.Disks {
 
-		linux.MountDisk(k, v)
+		mountDisk(k, v)
 	}
+}
+
+func mountDisk(deviceName string, options config.DiskOptions) {
+	println("Creating the disk ", deviceName, options.Fs)
 }
