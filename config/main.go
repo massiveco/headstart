@@ -42,10 +42,15 @@ type Config struct {
 // Parse a string into a config struct
 func parse(configStr []byte) Config {
 
+	preamble := string(configStr[0:11])
+	if preamble != "#!headstart" {
+		log.Fatal("Config file does not appear to be a headstart config. Giving up")
+	}
+
 	var config Config
 	err := yaml.Unmarshal(configStr, &config)
 	if err != nil {
-		log.Panic(err)
+		log.Fatal("Unable to parse config")
 	}
 
 	return config
