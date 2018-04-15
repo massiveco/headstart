@@ -15,7 +15,7 @@ disks:
 
 files:
   /var/lib/kubelet/kubeconfig:
-    source: s3://
+    source: https://gist.githubusercontent.com/deedubs/64ca227f953a93ef874caf60f5e170e4/raw/499e9d67a7403488811f52479fc192c833f7aae5/user-data.yml
     hash: 123asd123
     mode: 0600
     owner: root
