@@ -5,8 +5,8 @@ import (
 	"os"
 	"os/user"
 	"strconv"
+	"strings"
 
-	"github.com/cloudflare/cfssl/log"
 	"github.com/massiveco/headstart/config"
 )
 
@@ -21,36 +21,57 @@ func Create(config config.Config) {
 
 func createFile(filename string, options config.FileOptions) {
 
-	ownerID, err := convertOwnerToUID(options.Owner)
+	ownerID, groupID, err := convertFileOptionsToIDs(options)
 	if err != nil {
-		log.Warning("Unable to determine file owner. Skipping creation of", filename)
-		return
+		println("Unable to create '%s', %s", filename, err)
 	}
-	groupID, err := convertGroupToGID(options.Group)
-	if err != nil {
 
-		log.Warning("Unable to determine file group. Skipping creation of", filename, err)
-		return
-	}
 	if options.Source != "" {
+		prefix := strings.Split(options.Source, "://")
+		if len(prefix) == 0 {
+			println("Could not determine SourceType from ", options.Source)
+		}
+		sourceType := prefix[0]
 
-		log.Warning("Source files not supported yet")
+		switch sourceType {
+		default:
+			println("Unknown source type: ", sourceType, ". Skipping!")
+
+		}
+		println("Source files not supported yet", sourceType)
 
 		return
 	}
 
 	if options.Contents != "" {
 
+		println("Writing to", filename)
 		err := ioutil.WriteFile(filename, []byte(options.Contents), os.FileMode(options.Mode))
 		if err != nil {
-			log.Fatal(err)
+			println("Unable to write file: ", err)
+			return
 		}
 
 		err = os.Chown(filename, ownerID, groupID)
 		if err != nil {
-			log.Fatal(err)
+			println("Unable to set file permissions: ", err)
+			return
 		}
 	}
+}
+
+func convertFileOptionsToIDs(options config.FileOptions) (int, int, error) {
+
+	ownerID, err := convertOwnerToUID(options.Owner)
+	if err != nil {
+		return 0, 0, err
+	}
+	groupID, err := convertGroupToGID(options.Group)
+	if err != nil {
+		return 0, 0, err
+	}
+
+	return ownerID, groupID, nil
 }
 
 func convertOwnerToUID(owner string) (int, error) {
