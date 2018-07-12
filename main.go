@@ -1,21 +1,40 @@
 package main
 
 import (
+	"log"
+	"os"
+	"plugin"
+
 	"github.com/massiveco/headstart/config"
-	"github.com/massiveco/headstart/disks"
-	"github.com/massiveco/headstart/files"
-	"github.com/massiveco/headstart/scripts"
-	"github.com/massiveco/headstart/users"
+	"github.com/massiveco/headstart/handlers/files"
+	"github.com/massiveco/headstart/handlers/users"
 )
 
-var cloudType = "aws"
+var providerEnv = os.Getenv("HS_PROVIDER")
 
 func main() {
 
-	headstartConfig := config.Load(cloudType)
+	if providerEnv == "" {
+		providerEnv = "local"
+	}
 
-	users.Create(headstartConfig)
-	files.Create(headstartConfig)
-	disks.Mount(headstartConfig)
-	scripts.Run(headstartConfig)
+	providerPlugin, err := plugin.Open("providers/" + providerEnv + ".so")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	providerSym, err := providerPlugin.Lookup("FetchConfig")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	provider := providerSym.(func() ([]byte, error))
+	configStr, err := provider()
+	if err != nil {
+		log.Fatal(err)
+	}
+	cfg := config.Parse(configStr)
+
+	users.Process(cfg)
+	files.Process(cfg)
 }
