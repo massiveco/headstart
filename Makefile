@@ -10,4 +10,4 @@ plugins/aws.so:
 	cd providers/aws && CGO_ENABLED=1 go build -buildmode=plugin -o ../aws.so
 
 headstart:
-	CGO_ENABLED=1 GOOS=linux go build .
+	CGO_ENABLED=1 go build .

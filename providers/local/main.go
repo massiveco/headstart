@@ -5,9 +5,13 @@ import (
 )
 
 // FetchConfig from this provider
-func FetchConfig() ([]byte, error) {
+func FetchConfig(filename string) ([]byte, error) {
 
-	userData, err := ioutil.ReadFile("./sample_config.yml")
+	if filename == "" {
+		filename = "/etc/headstart/config.yml"
+	}
+
+	userData, err := ioutil.ReadFile(filename)
 	if err != nil {
 		return nil, err
 	}

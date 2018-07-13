@@ -7,6 +7,7 @@ import (
 
 	"github.com/massiveco/headstart/config"
 	"github.com/massiveco/headstart/handlers/files"
+	"github.com/massiveco/headstart/handlers/groups"
 	"github.com/massiveco/headstart/handlers/users"
 )
 
@@ -35,6 +36,7 @@ func main() {
 	}
 	cfg := config.Parse(configStr)
 
+	groups.Process(cfg)
 	users.Process(cfg)
 	files.Process(cfg)
 }

@@ -7,9 +7,14 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
+// Group to be created on the host
+type Group struct {
+	Sudo bool `yaml:"Sudo,omitempty"`
+}
+
 // User users to be created on the host
 type User struct {
-	Name           string   `yaml:"name,omitempty"`
+	Groups         []string `yaml:"groups,omitempty"`
 	AuthorizedKeys []string `yaml:"authorized_keys"`
 }
 
@@ -26,8 +31,9 @@ type File struct {
 
 //Config Headstart config
 type Config struct {
-	Users map[string]User `yaml:"users"`
-	Files map[string]File `yaml:"files"`
+	Users  map[string]User  `yaml:"users"`
+	Files  map[string]File  `yaml:"files"`
+	Groups map[string]Group `yaml:"groups"`
 }
 
 // Parse a string into a config struct

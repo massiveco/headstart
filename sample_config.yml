@@ -1,5 +1,9 @@
 #!headstart
 
+groups:
+  admins:
+    sudo: true
+
 users:
   deedubs:
     name: Dan Williams
