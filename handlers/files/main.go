@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"crypto/sha256"
 	"encoding/base64"
-	"fmt"
+	"encoding/hex"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -45,7 +45,11 @@ func createFile(filename string, options config.File) {
 
 			contents, _ := fetchFile(options.Source)
 
-			//TODO: Check file sha256 against Options.Hash
+			if !compareFileToHash(contents, []byte(options.Hash)) {
+				println("File signature mismatch", sourceType, ". Skipping!")
+				return
+			}
+
 			options.Contents = string(contents)
 
 		default:
@@ -153,18 +157,10 @@ func fetchFile(url string) ([]byte, error) {
 }
 
 func compareFileToHash(file []byte, hash []byte) bool {
+	hasher := sha256.New()
+	hasher.Write(file)
 
-	h := sha256.New()
-	_, err := h.Write(file)
-	if err != nil {
-		println("Unable to hash")
-		return false
-	}
-	filesha := h.Sum(nil)
+	fileshaHex := hex.EncodeToString(hasher.Sum(nil))
 
-	fmt.Printf("%x", filesha)
-	fmt.Printf("%x", hash)
-	println()
-
-	return bytes.Equal(hash, filesha)
+	return bytes.Equal(hash, []byte(fileshaHex))
 }
