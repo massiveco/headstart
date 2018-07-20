@@ -4,6 +4,8 @@ import (
 	"io/ioutil"
 )
 
+func main() {}
+
 // FetchConfig from this provider
 func FetchConfig(filename string) ([]byte, error) {
 

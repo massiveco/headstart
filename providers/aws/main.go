@@ -8,6 +8,8 @@ import (
 
 var metadataURL = "http://169.254.169.254/latest/user-data"
 
+func main() {}
+
 func loadMetadata() ([]byte, error) {
 
 	c := &http.Client{
