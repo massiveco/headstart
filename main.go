@@ -12,13 +12,19 @@ import (
 )
 
 var providerEnv = os.Getenv("HS_PROVIDER")
+var providerPath = os.Getenv("HS_PROVIDER_PATH")
 
-func main() {
-
+func init() {
 	if providerEnv == "" {
 		providerEnv = "local"
 	}
 
+	if providerPath == "" {
+		providerPath = "/var/lib/headstart/providers"
+	}
+}
+
+func main() {
 	providerPlugin, err := plugin.Open("providers/" + providerEnv + ".so")
 	if err != nil {
 		log.Fatal(err)
