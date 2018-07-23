@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"os"
+	"path"
 	"plugin"
 
 	"github.com/massiveco/headstart/config"
@@ -20,12 +21,12 @@ func init() {
 	}
 
 	if providerPath == "" {
-		providerPath = "/var/lib/headstart/providers"
+		providerPath = "/var/lib/headstart/providers/"
 	}
 }
 
 func main() {
-	providerPlugin, err := plugin.Open("providers/" + providerEnv + ".so")
+	providerPlugin, err := plugin.Open(path.Join(providerPath, providerEnv+".so"))
 	if err != nil {
 		log.Fatal(err)
 	}
