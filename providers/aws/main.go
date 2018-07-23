@@ -32,6 +32,6 @@ func loadMetadata() ([]byte, error) {
 }
 
 // FetchConfig from this provider
-func FetchConfig() ([]byte, error) {
+func FetchConfig(_ string) ([]byte, error) {
 	return loadMetadata()
 }

@@ -12,6 +12,7 @@ import (
 	"github.com/massiveco/headstart/handlers/users"
 )
 
+var localConfigPath = os.Getenv("HS_LOCAL_PATH")
 var providerEnv = os.Getenv("HS_PROVIDER")
 var providerPath = os.Getenv("HS_PROVIDER_PATH")
 
@@ -22,6 +23,10 @@ func init() {
 
 	if providerPath == "" {
 		providerPath = "/usr/lib/headstart/providers/"
+	}
+
+	if localConfigPath == "" {
+		localConfigPath = "/etc/headstart/config.yml"
 	}
 }
 
@@ -36,8 +41,8 @@ func main() {
 		log.Fatal(err)
 	}
 
-	provider := providerSym.(func() ([]byte, error))
-	configStr, err := provider()
+	provider := providerSym.(func(string) ([]byte, error))
+	configStr, err := provider(localConfigPath)
 	if err != nil {
 		log.Fatal(err)
 	}
