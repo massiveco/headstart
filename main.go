@@ -21,7 +21,7 @@ func init() {
 	}
 
 	if providerPath == "" {
-		providerPath = "/var/lib/headstart/providers/"
+		providerPath = "/usr/lib/headstart/providers/"
 	}
 }
 
