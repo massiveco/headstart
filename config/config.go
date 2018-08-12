@@ -50,16 +50,21 @@ type CertificatePaths struct {
 
 // CertificateDetails defines the Details we should write the certificate components to
 type CertificateDetails struct {
-	Group      string   `yaml:"group,omitempty"`
-	CommonName string   `yaml:"commonName,omitempty"`
-	Hosts      []string `yaml:"hosts,omitempty"`
+	Group      string            `yaml:"group,omitempty"`
+	CommonName string            `yaml:"commonName,omitempty"`
+	Hosts      []string          `yaml:"hosts,omitempty"`
+	Type       string            `yaml:"type,omitempty"`
+	Region     string            `yaml:"region,omitempty"`
+	Name       string            `yaml:"name,omitempty"`
+	Paths      map[string]string `yaml:"paths,omitempty"`
 }
 
 //Config Headstart config
 type Config struct {
-	Users  map[string]User  `yaml:"users"`
-	Files  map[string]File  `yaml:"files"`
-	Groups map[string]Group `yaml:"groups"`
+	Users        map[string]User  `yaml:"users"`
+	Files        map[string]File  `yaml:"files"`
+	Groups       map[string]Group `yaml:"groups"`
+	Certificates []Certificate    `yaml:"certificates"`
 }
 type templateVars struct {
 	Hostname string

@@ -7,11 +7,7 @@
 certificates:
   - type: serverlessl
     region: us-east-1
-    name: etcd-masters    
-    mode: 0600
-    owner: deedubs
-    group: staff
-
+    name: etcd-masters
     details:
       group: etcd
       commonName: system:etcd:{{.Hostname}}
