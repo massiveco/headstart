@@ -1,6 +1,8 @@
 package config
 
 import (
+	"bytes"
+	"html/template"
 	"log"
 	"os"
 
@@ -29,11 +31,38 @@ type File struct {
 	Group           string      `yaml:"group,omitempty"`
 }
 
+// Certificate for creating/requesting PKI certificates
+type Certificate struct {
+	Type    string             `yaml:"type,omitempty"`
+	Region  string             `yaml:"region,omitempty"`
+	Name    string             `yaml:"name,omitempty"`
+	Paths   CertificatePaths   `yaml:"paths,omitempty"`
+	Details CertificateDetails `yaml:"details,omitempty"`
+}
+
+// CertificatePaths defines the paths we should write the certificate components to
+type CertificatePaths struct {
+	Certificate          string `yaml:"cert,omitempty"`
+	SigningRequest       string `yaml:"csr,omitempty"`
+	Key                  string `yaml:"key,omitempty"`
+	CertificateAuthority string `yaml:"ca,omitempty"`
+}
+
+// CertificateDetails defines the Details we should write the certificate components to
+type CertificateDetails struct {
+	Group      string   `yaml:"group,omitempty"`
+	CommonName string   `yaml:"commonName,omitempty"`
+	Hosts      []string `yaml:"hosts,omitempty"`
+}
+
 //Config Headstart config
 type Config struct {
 	Users  map[string]User  `yaml:"users"`
 	Files  map[string]File  `yaml:"files"`
 	Groups map[string]Group `yaml:"groups"`
+}
+type templateVars struct {
+	Hostname string
 }
 
 // Parse a string into a config struct
@@ -43,12 +72,31 @@ func Parse(configStr []byte) Config {
 	if preamble != "#!headstart" {
 		log.Fatal("Config file does not appear to be a headstart config. Giving up")
 	}
-
+	data := buildTemplateVars()
+	tmpl, err := template.New("config").Parse(string(configStr[:]))
+	if err != nil {
+		log.Fatal("Unable to apply template.  Giving up.")
+	}
 	var config Config
-	err := yaml.Unmarshal(configStr, &config)
+	rendered := new(bytes.Buffer)
+	err = tmpl.Execute(rendered, data)
+
+	err = yaml.Unmarshal(rendered.Bytes(), &config)
 	if err != nil {
 		log.Fatal("Unable to parse config")
 	}
 
 	return config
+}
+
+func buildTemplateVars() templateVars {
+
+	hostname, err := os.Hostname()
+	if err != nil {
+		log.Println("Unable to retrieve hostname")
+		return templateVars{}
+	}
+	return templateVars{
+		Hostname: hostname,
+	}
 }

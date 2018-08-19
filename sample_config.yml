@@ -1,29 +1,50 @@
 #!headstart
 
-groups:
-  admins:
-    sudo: true
+# groups:
+#   admins:
+#     sudo: true
 
-users:
-  deedubs:
-    name: Dan Williams
-    authorized_keys:
-      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCl9mNT+GImNCxd0l+Qlb3ZjG+os1yoXJjX04ip39S5DkQEItGwA7oW5x0G9B/5AaJxbYMVs6VVHrglR6V61B578A6z774jtnoe9DS3S/3uHRE7GVfWOJzO1/u7HIt3fD7s8EwlXnydKQWI6C1m4jlXNBOB+cArS0BW/KHiZDSMXMN8oC7PTX51w73E/Y/33CBaQ+lP21gIUX47wwGE5FZY72EBbZyc/jsCoFFI+04OOIEhVfGId8LX6Tx93vKv8AcusNwV2R1vub/VHuj9hmBkdpOacZkTmUvuownr3bZwOJjxGHA4p5cxRNsbbVogSZTsvp8t2yCZenMXnLNGwGP1
+certificates:
+  - type: serverlessl
+    region: us-east-1
+    name: etcd-masters    
+    mode: 0600
+    owner: deedubs
+    group: staff
 
-files:
-  /Users/deedubs/go/src/github.com/massiveco/headstart/file1:
-    source: https://gist.githubusercontent.com/deedubs/64ca227f953a93ef874caf60f5e170e4/raw/499e9d67a7403488811f52479fc192c833f7aae5/user-data.yml
-    hash: e6b9a2419f97c5375763c28d53c18516571960f25f3f3208c8fe9748235bd762
-    mode: 0600
-    owner: deedubs
-    group: staff
-  /Users/deedubs/go/src/github.com/massiveco/headstart/file2:
-    contents: Hello World!!
-    mode: 0600
-    owner: deedubs
-    group: staff
-  /Users/deedubs/go/src/github.com/massiveco/headstart/file3:
-    encoded_contents: SGVsbG8gV29ybGQK
-    mode: 0600
-    owner: deedubs
-    group: staff
+    details:
+      group: etcd
+      commonName: system:etcd:{{.Hostname}}
+      hosts:
+        - "{{.Hostname}}"
+        - "etcd"
+        - "etcd.cluster.local"
+    paths: 
+      cert: /home/deedubs/go/src/github.com/massiveco/headstart/certs/cert.pem
+      csr: /home/deedubs/go/src/github.com/massiveco/headstart/certs/csr.pem
+      key: /home/deedubs/go/src/github.com/massiveco/headstart/certs/key.pem
+      ca: /home/deedubs/go/src/github.com/massiveco/headstart/certs/ca.pem
+
+# users:
+#   deedubs:
+#     name: Dan Williams
+#     authorized_keys:
+#       - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCl9mNT+GImNCxd0l+Qlb3ZjG+os1yoXJjX04ip39S5DkQEItGwA7oW5x0G9B/5AaJxbYMVs6VVHrglR6V61B578A6z774jtnoe9DS3S/3uHRE7GVfWOJzO1/u7HIt3fD7s8EwlXnydKQWI6C1m4jlXNBOB+cArS0BW/KHiZDSMXMN8oC7PTX51w73E/Y/33CBaQ+lP21gIUX47wwGE5FZY72EBbZyc/jsCoFFI+04OOIEhVfGId8LX6Tx93vKv8AcusNwV2R1vub/VHuj9hmBkdpOacZkTmUvuownr3bZwOJjxGHA4p5cxRNsbbVogSZTsvp8t2yCZenMXnLNGwGP1
+
+# files:
+#   /Users/deedubs/go/src/github.com/massiveco/headstart/file1:
+#     source: https://gist.githubusercontent.com/deedubs/64ca227f953a93ef874caf60f5e170e4/raw/499e9d67a7403488811f52479fc192c833f7aae5/user-data.yml
+#     hash: e6b9a2419f97c5375763c28d53c18516571960f25f3f3208c8fe9748235bd762
+#     mode: 0600
+#     owner: deedubs
+#     group: staff
+#   /Users/deedubs/go/src/github.com/massiveco/headstart/file2:
+#     contents: Hello World!!
+#     mode: 0600
+#     owner: deedubs
+#     group: staff
+#   /Users/deedubs/go/src/github.com/massiveco/headstart/file3:
+#     encoded_contents: SGVsbG8gV29ybGQK
+#     mode: 0600
+#     owner: deedubs
+#     group: staff
