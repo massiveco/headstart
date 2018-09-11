@@ -2,6 +2,7 @@ package config
 
 import (
 	"bytes"
+	"errors"
 	"html/template"
 	"log"
 	"os"
@@ -71,30 +72,34 @@ type templateVars struct {
 }
 
 // Parse a string into a config struct
-func Parse(configStr []byte) Config {
+func Parse(configBytes []byte) (*Config, error) {
 
-	preamble := string(configStr[0:11])
-	if preamble != "#!headstart" {
-		log.Fatal("Config file does not appear to be a headstart config. Giving up")
+	if len(configBytes) == 0 {
+		return nil, errors.New("No config provided")
 	}
-	data := buildTemplateVars()
-	tmpl, err := template.New("config").Parse(string(configStr[:]))
+
+	preamble := string(configBytes[0:11])
+	if preamble != "#!headstart" {
+
+		return nil, errors.New("Config file does not appear to be a headstart config" + preamble)
+	}
+	configTemplate, err := template.New("config").Parse(string(configBytes[:]))
 	if err != nil {
-		log.Fatal("Unable to apply template.  Giving up.")
+		return nil, errors.New("Unable to apply template")
 	}
 	var config Config
 	rendered := new(bytes.Buffer)
-	err = tmpl.Execute(rendered, data)
-
+	err = configTemplate.Execute(rendered, buildTemplateData())
+	log.Println(rendered)
 	err = yaml.Unmarshal(rendered.Bytes(), &config)
 	if err != nil {
-		log.Fatal("Unable to parse config")
+		return nil, errors.New("Unable to parse config")
 	}
 
-	return config
+	return &config, nil
 }
 
-func buildTemplateVars() templateVars {
+func buildTemplateData() templateVars {
 
 	hostname, err := os.Hostname()
 	if err != nil {

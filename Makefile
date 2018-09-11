@@ -13,3 +13,9 @@ plugins/aws.so:
 
 headstart:
 	go build .
+
+test:
+	go test -v -covermode=count -coverprofile=coverage.out ./...
+
+coverage-html: test
+	go tool cover -html=coverage.out -o=coverage.html

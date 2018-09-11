@@ -47,10 +47,13 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	cfg := config.Parse(configStr)
+	cfg, err := config.Parse(configStr)
+	if err != nil {
+		log.Fatal(err)
+	}
 
-	certificates.Process(cfg)
-	groups.Process(cfg)
-	users.Process(cfg)
-	files.Process(cfg)
+	certificates.Process(*cfg)
+	groups.Process(*cfg)
+	users.Process(*cfg)
+	files.Process(*cfg)
 }

@@ -12,15 +12,14 @@ import (
 //Process requested PKI requests
 func Process(cfg config.Config) {
 
-	serverlesslSvc := client.New(client.Config{
-		Name: "default",
-		Lambda: client.LambdaConfig{
-			Region: "us-east-2",
-		},
-	})
-
 	for _, certDetails := range cfg.Certificates {
 
+		serverlesslSvc := client.New(client.Config{
+			Name: certDetails.Name,
+			Lambda: client.LambdaConfig{
+				Region: certDetails.Region,
+			},
+		})
 		caCert, err := serverlesslSvc.FetchCa()
 		if err != nil {
 			fmt.Println("Unable to fetch Ca ", certDetails.Name)
