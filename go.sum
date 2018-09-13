@@ -23,6 +23,8 @@ github.com/jtolds/gls v4.2.1+incompatible h1:fSuqC+Gmlu6l/ZYAoZzx2pyucC8Xza35fpR
 github.com/jtolds/gls v4.2.1+incompatible/go.mod h1:QJZ7F/aHp+rZTRtaJ1ow/lLfFfVYBRgL+9YlvaHOwJU=
 github.com/massiveco/serverlessl v0.1.0 h1:nBYN52k66sgVRYqE43Zi6yVBFxSbxyN0zpD7sXbQRAI=
 github.com/massiveco/serverlessl v0.1.0/go.mod h1:QoPlVtn6KkF70+0cDzgZ78wqGGFMhaj2aW2bMjwjYMk=
+github.com/massiveco/serverlessl v0.1.1 h1:Yb9s391G2g9HWfuK/cvXSQxH1oWPTxwkzGNhcJXI7Ds=
+github.com/massiveco/serverlessl v0.1.1/go.mod h1:QoPlVtn6KkF70+0cDzgZ78wqGGFMhaj2aW2bMjwjYMk=
 github.com/onsi/ginkgo v1.6.0 h1:Ix8l273rp3QzYgXSR+c8d1fTG7UPgYkOSELPhiY/YGw=
 github.com/onsi/ginkgo v1.6.0/go.mod h1:lLunBs/Ym6LB5Z9jYTR76FiuTmxDTDusOGeTQH+WWjE=
 github.com/onsi/gomega v1.4.2 h1:3mYCb7aPxS/RU7TI1y4rkEn1oKmPRjNJLNEXgw7MH2I=
