@@ -53,6 +53,7 @@ type CertificatePaths struct {
 type CertificateDetails struct {
 	Group      string            `yaml:"group,omitempty"`
 	CommonName string            `yaml:"commonName,omitempty"`
+	Profile    string            `yaml:"profile,omitempty"`
 	Hosts      []string          `yaml:"hosts,omitempty"`
 	Type       string            `yaml:"type,omitempty"`
 	Region     string            `yaml:"region,omitempty"`

@@ -30,6 +30,7 @@ func Process(cfg config.Config) {
 			CommonName: certDetails.Details.CommonName,
 			Group:      certDetails.Details.Group,
 			Hosts:      certDetails.Details.Hosts,
+			Profile:	certDetails.Details.Profile,
 		})
 		if err != nil {
 			fmt.Println("Unable to fetch certificate ", certDetails.Name)

@@ -3,23 +3,23 @@
 # groups:
 #   admins:
 #     sudo: true
-
 certificates:
   - type: serverlessl
-    region: us-east-1
-    name: etcd-masters
+    region: us-east-2
+    name: default
     details:
       group: etcd
+      profile: server
       commonName: system:etcd:{{.Hostname}}
       hosts:
         - "{{.Hostname}}"
         - "etcd"
         - "etcd.cluster.local"
     paths: 
-      cert: /home/deedubs/go/src/github.com/massiveco/headstart/certs/cert.pem
-      csr: /home/deedubs/go/src/github.com/massiveco/headstart/certs/csr.pem
-      key: /home/deedubs/go/src/github.com/massiveco/headstart/certs/key.pem
-      ca: /home/deedubs/go/src/github.com/massiveco/headstart/certs/ca.pem
+      cert: /home/deedubs/Workspaces/massiveco/headstart/certs/cert.pem
+      csr: /home/deedubs/Workspaces/massiveco/headstart/certs/csr.pem
+      key: /home/deedubs/Workspaces/massiveco/headstart/certs/key.pem
+      ca: /home/deedubs/Workspaces/massiveco/headstart/certs/ca.pem
 
 # users:
 #   deedubs:
