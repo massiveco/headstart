@@ -6,7 +6,8 @@
 certificates:
   - type: serverlessl
     region: us-east-2
-    name: default
+    name: etcd
+    profile: server
     details:
       group: etcd
       profile: server

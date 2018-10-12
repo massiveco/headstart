@@ -37,6 +37,7 @@ type Certificate struct {
 	Type    string             `yaml:"type,omitempty"`
 	Region  string             `yaml:"region,omitempty"`
 	Name    string             `yaml:"name,omitempty"`
+	Profile string             `yaml:"profile,omitempty"`
 	Paths   CertificatePaths   `yaml:"paths,omitempty"`
 	Details CertificateDetails `yaml:"details,omitempty"`
 }
