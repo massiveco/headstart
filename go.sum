@@ -21,8 +21,8 @@ github.com/jmespath/go-jmespath v0.0.0-20160202185014-0b12d6b521d8 h1:12VvqtR6Ao
 github.com/jmespath/go-jmespath v0.0.0-20160202185014-0b12d6b521d8/go.mod h1:Nht3zPeWKUH0NzdCt2Blrr5ys8VGpn0CEB0cQHVjt7k=
 github.com/jtolds/gls v4.2.1+incompatible h1:fSuqC+Gmlu6l/ZYAoZzx2pyucC8Xza35fpRVWLVmUEE=
 github.com/jtolds/gls v4.2.1+incompatible/go.mod h1:QJZ7F/aHp+rZTRtaJ1ow/lLfFfVYBRgL+9YlvaHOwJU=
-github.com/massiveco/serverlessl v0.1.5 h1:peKuh+WkjjoV/zIdV6X/NRab1Un79vb+lbnXdvDpljs=
-github.com/massiveco/serverlessl v0.1.5/go.mod h1:QoPlVtn6KkF70+0cDzgZ78wqGGFMhaj2aW2bMjwjYMk=
+github.com/massiveco/serverlessl v0.1.6 h1:WQ8KtW1w2VnOezYCU7kdURfkxehn3lM33xRQXyN3H/I=
+github.com/massiveco/serverlessl v0.1.6/go.mod h1:QoPlVtn6KkF70+0cDzgZ78wqGGFMhaj2aW2bMjwjYMk=
 github.com/onsi/ginkgo v1.6.0 h1:Ix8l273rp3QzYgXSR+c8d1fTG7UPgYkOSELPhiY/YGw=
 github.com/onsi/ginkgo v1.6.0/go.mod h1:lLunBs/Ym6LB5Z9jYTR76FiuTmxDTDusOGeTQH+WWjE=
 github.com/onsi/gomega v1.4.2 h1:3mYCb7aPxS/RU7TI1y4rkEn1oKmPRjNJLNEXgw7MH2I=

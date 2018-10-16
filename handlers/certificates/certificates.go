@@ -18,6 +18,7 @@ func Process(cfg config.Config) {
 			Lambda: client.LambdaConfig{
 				Region: certificate.Region,
 			},
+			Profile: certificate.Profile,	
 		})
 		caCert, err := serverlesslSvc.FetchCa()
 		if err != nil {
@@ -30,7 +31,6 @@ func Process(cfg config.Config) {
 			CommonName: certificate.Details.CommonName,
 			Group:      certificate.Details.Group,
 			Hosts:      certificate.Details.Hosts,
-			Profile:	certificate.Profile,
 		})
 		if err != nil {
 			fmt.Println("Unable to fetch certificate ", certificate.Name, err)
