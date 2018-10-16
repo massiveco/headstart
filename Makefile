@@ -14,8 +14,13 @@ plugins/aws.so:
 headstart:
 	go build .
 
+local: headstart
+	HS_LOCAL_PATH=./sample_config.yml HS_PROVIDER_PATH=./ ./headstart
+	
 test:
 	go test -v -covermode=count -coverprofile=coverage.out ./...
 
 coverage-html: test
 	go tool cover -html=coverage.out -o=coverage.html
+
+.PHONY: headstart

@@ -10,7 +10,6 @@ certificates:
     profile: server
     details:
       group: etcd
-      profile: server
       commonName: system:etcd:{{.Hostname}}
       hosts:
         - "{{.Hostname}}"

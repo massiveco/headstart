@@ -9,31 +9,31 @@ import (
 	"github.com/massiveco/serverlessl/client"
 )
 
-//Process requested PKI requests
+// Process requested PKI requests
 func Process(cfg config.Config) {
 
-	for _, certDetails := range cfg.Certificates {
-
+	for _, certificate := range cfg.Certificates {
 		serverlesslSvc := client.New(client.Config{
-			Name: certDetails.Name,
+			Name: certificate.Name,
 			Lambda: client.LambdaConfig{
-				Region: certDetails.Region,
+				Region: certificate.Region,
 			},
 		})
 		caCert, err := serverlesslSvc.FetchCa()
 		if err != nil {
-			fmt.Println("Unable to fetch Ca ", certDetails.Name)
+			fmt.Println("Unable to fetch Ca ", certificate.Name)
+			fmt.Println(err)
 			return
 		}
 
 		csr, key, crt, err := serverlesslSvc.RequestCertificate(client.CertificateDetails{
-			CommonName: certDetails.Details.CommonName,
-			Group:      certDetails.Details.Group,
-			Hosts:      certDetails.Details.Hosts,
-			Profile:	certDetails.Details.Profile,
+			CommonName: certificate.Details.CommonName,
+			Group:      certificate.Details.Group,
+			Hosts:      certificate.Details.Hosts,
+			Profile:	certificate.Profile,
 		})
 		if err != nil {
-			fmt.Println("Unable to fetch certificate ", certDetails.Name)
+			fmt.Println("Unable to fetch certificate ", certificate.Name, err)
 			return
 		}
 
@@ -42,18 +42,17 @@ func Process(cfg config.Config) {
 			Bytes: crt,
 		}
 
-		if certDetails.Paths.CertificateAuthority != "" {
-			ioutil.WriteFile(certDetails.Paths.CertificateAuthority, caCert, 0600)
+		if certificate.Paths.CertificateAuthority != "" {
+			ioutil.WriteFile(certificate.Paths.CertificateAuthority, caCert, 0600)
 		}
-
-		if certDetails.Paths.SigningRequest != "" {
-			ioutil.WriteFile(certDetails.Paths.SigningRequest, csr, 0600)
+		if certificate.Paths.SigningRequest != "" {
+			ioutil.WriteFile(certificate.Paths.SigningRequest, csr, 0600)
 		}
-		if certDetails.Paths.Key != "" {
-			ioutil.WriteFile(certDetails.Paths.Key, key, 0600)
+		if certificate.Paths.Key != "" {
+			ioutil.WriteFile(certificate.Paths.Key, key, 0600)
 		}
-		if certDetails.Paths.Certificate != "" {
-			ioutil.WriteFile(certDetails.Paths.Certificate, pem.EncodeToMemory(&cert), 0600)
+		if certificate.Paths.Certificate != "" {
+			ioutil.WriteFile(certificate.Paths.Certificate, pem.EncodeToMemory(&cert), 0600)
 		}
 	}
 }
