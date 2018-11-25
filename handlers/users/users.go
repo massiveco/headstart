@@ -6,6 +6,8 @@ import (
 	"log"
 	"os"
 	"os/exec"
+	"os/user"
+	"strconv"
 	"strings"
 
 	"github.com/massiveco/headstart/config"
@@ -28,9 +30,34 @@ func Process(config config.Config) {
 
 		}
 
+		usr, err := user.Lookup(username)
+		if err != nil {
+			log.Fatal(err)
+
+		}
+		grp, err := user.LookupGroup(usr.Gid)
+		if err != nil {
+			log.Fatal(err)
+
+		}
+		usrID, err := strconv.Atoi(usr.Uid)
+		if err != nil {
+			log.Fatal(err)
+
+		}
+		grpID, err := strconv.Atoi(grp.Gid)
+		if err != nil {
+			log.Fatal(err)
+
+		}
+
 		if len(options.AuthorizedKeys) != 0 {
 			keyDir := fmt.Sprintf(sshKeyDirFormat, username)
 			err := os.Mkdir(keyDir, os.FileMode(0700))
+			if err != nil {
+				log.Fatal(err)
+			}
+			err = os.Chown(keyDir, usrID, grpID)
 			if err != nil {
 				log.Fatal(err)
 			}
@@ -42,8 +69,12 @@ func Process(config config.Config) {
 			if err != nil {
 				log.Fatal(err)
 			}
+			err = os.Chown(authorizedKeyPath, usrID, grpID)
+			if err != nil {
+				log.Fatal(err)
+			}
 		}
-		
+
 		if len(options.Groups) != 0 {
 			groups := strings.Join(options.Groups, ",")
 
